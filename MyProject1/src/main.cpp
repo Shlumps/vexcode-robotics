@@ -36,3 +36,13 @@ int main() {
 
   }
 }
+
+int main() {
+  vexcodeInit();
+  Inertial4.calibrate();
+  while(true) {
+    Brain.Screen.clearLine();
+    Brain.Screen.print(Inertial4.orientation(pitch,degrees));
+    task::sleep(100);
+  }
+}
