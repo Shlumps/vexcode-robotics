@@ -1,0 +1,78 @@
+/*----------------------------------------------------------------------------*/
+/*                                                                            */
+/*    Module:       main.cpp                                                  */
+/*    Author:       C:\Users\kennethbarbagallo                                */
+/*    Created:      Fri Feb 28 2020                                           */
+/*    Description:  V5 project                                                */
+/*                                                                            */
+/*----------------------------------------------------------------------------*/
+
+// ---- START VEXCODE CONFIGURED DEVICES ----
+// Robot Configuration:
+// [Name]               [Type]        [Port(s)]
+// Vision1              vision        3               
+// LeftMotor            motor         1               
+// RightMotor           motor         10              
+// ---- END VEXCODE CONFIGURED DEVICES ----
+
+#include "vex.h"
+//Vision Motion Tests "Agressive Retriever"
+
+//Robot will search for the object selected and "retrieve It!"
+void moveFwd();
+void moveRev();
+void turnleft();
+void turnRight();
+void stopRobot();
+
+
+//Global Variables
+int centerFOVX = 168;//try 158
+int centerFOVY = 195;//try 106
+int offsetX = 20;
+int offsetY = 5;
+int driveSpeed = 10;
+
+//for future program /int armSpeed = 20;
+//for future program /int numDegrees = 200;
+
+using namespace vex;
+
+
+int main() {
+  // Initializing Robot Configuration. DO NOT REMOVE!
+  vexcodeInit();
+
+  while(true){//alwaysrun
+    Brain.Screen.clearScreen();
+    Brain.Screen.setOrigin(1,1);
+    Brain.Screen.setPenColor(color::white);
+    Brain.Screen.drawRectangle(82,30,316,212); //Draw the visionSensor feild of veiw
+    //Take Snap Shots for ball
+    Vision1.takeSnapshot(SIG_1);
+    
+    //draw what the Vision Sensor Sees
+    Brain.Screen.drawCircle(Vision1.largestObject.originX+82,Vision1.largestObject.originY+30,Vision1.largestObject.width, color::red);
+
+    if(Vision1.largestObject.exists&&Vision1.largestObject.width>5){
+      //Calculate X & Y velocities from VisionSense to go to Motors
+      //Create local variables
+      int velX = ((Vision1.largestObject.originX - 158)*0.6);
+      int velY = ((Vision1.largestObject.originY - 190)*0.6);
+      //Keep robot fixed on Red
+
+      LeftMotor.spin(directionType::fwd,(velY +velX)/2,velocityUnits::pct);
+      RightMotor.spin(directionType::fwd,(velY - velX)/2,velocityUnits::pct);
+      task::sleep(100);
+    }//End of IF Statement
+
+    if(Vision1.largestObject.exists){
+      
+      if(Vision1.largestObject.centerX<centerFOVX - offsetX){
+        turnLeft();//return object to center feild of View
+      }//End of else If
+      else if(Vision1.largestObject.centerX)
+    } 
+  }
+
+}
