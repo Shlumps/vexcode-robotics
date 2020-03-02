@@ -1,78 +1,166 @@
 /*----------------------------------------------------------------------------*/
+
 /*                                                                            */
+
 /*    Module:       main.cpp                                                  */
+
 /*    Author:       C:\Users\kennethbarbagallo                                */
+
 /*    Created:      Fri Feb 28 2020                                           */
+
 /*    Description:  V5 project                                                */
+
 /*                                                                            */
+
 /*----------------------------------------------------------------------------*/
+
+
 
 // ---- START VEXCODE CONFIGURED DEVICES ----
 // Robot Configuration:
 // [Name]               [Type]        [Port(s)]
-// Vision1              vision        3               
-// LeftMotor            motor         1               
+// Vision1              vision        2               
 // RightMotor           motor         10              
+// LeftMotor            motor         1               
+// ClawMotor            motor         8               
+// ArmMotor             motor         9               
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
+
+
 #include "vex.h"
+
 //Vision Motion Tests "Agressive Retriever"
 
+
+
 //Robot will search for the object selected and "retrieve It!"
+
 void moveFwd();
+
 void moveRev();
-void turnleft();
+
+void turnLeft();
+
 void turnRight();
+
 void stopRobot();
 
 
+
+
+
 //Global Variables
+
 int centerFOVX = 168;//try 158
+
 int centerFOVY = 195;//try 106
+
 int offsetX = 20;
+
 int offsetY = 5;
+
 int driveSpeed = 10;
 
+
+
 //for future program /int armSpeed = 20;
+
 //for future program /int numDegrees = 200;
+
+
 
 using namespace vex;
 
 
-int main() {
-  // Initializing Robot Configuration. DO NOT REMOVE!
-  vexcodeInit();
 
+
+
+int main() {
+
+  // Initializing Robot Configuration. DO NOT REMOVE!
+
+  vexcodeInit();
   while(true){//alwaysrun
     Brain.Screen.clearScreen();
+
     Brain.Screen.setOrigin(1,1);
+
     Brain.Screen.setPenColor(color::white);
+
     Brain.Screen.drawRectangle(82,30,316,212); //Draw the visionSensor feild of veiw
+
     //Take Snap Shots for ball
     Vision1.takeSnapshot(SIG_1);
-    
+
     //draw what the Vision Sensor Sees
     Brain.Screen.drawCircle(Vision1.largestObject.originX+82,Vision1.largestObject.originY+30,Vision1.largestObject.width, color::red);
-
     if(Vision1.largestObject.exists&&Vision1.largestObject.width>5){
       //Calculate X & Y velocities from VisionSense to go to Motors
       //Create local variables
       int velX = ((Vision1.largestObject.originX - 158)*0.6);
       int velY = ((Vision1.largestObject.originY - 190)*0.6);
       //Keep robot fixed on Red
-
       LeftMotor.spin(directionType::fwd,(velY +velX)/2,velocityUnits::pct);
       RightMotor.spin(directionType::fwd,(velY - velX)/2,velocityUnits::pct);
       task::sleep(100);
-    }//End of IF Statement
+    }//End of First IF Statement
 
     if(Vision1.largestObject.exists){
-      
-      if(Vision1.largestObject.centerX<centerFOVX - offsetX){
-        turnLeft();//return object to center feild of View
-      }//End of else If
-      else if(Vision1.largestObject.centerX)
-    } 
-  }
+      if(Vision1.largestObject.centerX < centerFOVX - offsetX){
 
-}
+        turnLeft();//return object to center feild of View
+
+      }//End of else If
+
+      else if(Vision1.largestObject.centerX > centerFOVX + offsetY){
+        turnRight();//return object to center feild of veiw
+      }//end of if
+      
+      else if(Vision1.largestObject.centerY > centerFOVY + offsetY){
+        moveRev();//function
+      }//end of esle if
+
+      else if(Vision1.largestObject.centerY < centerFOVY - offsetY){
+        moveFwd();//function
+      }//end of else if
+      
+      else{
+        stopRobot();//function
+          //INSERT ROBOT PIC UP HERE!!!!!!!!
+      }//end of else
+      task::sleep(20);//SPD Slow Program Dow
+    }//End of second Else
+  }//End of while true loop
+}//end of main line
+
+//Functions below
+void moveFwd(){
+  //Driver forward at a specific set speed
+  LeftMotor.spin(directionType::fwd,driveSpeed,velocityUnits::pct);//set motor speed to said variable
+  RightMotor.spin(directionType::fwd,driveSpeed,velocityUnits::pct);//set motor speed to said variable
+}//end of moveFwd Void
+
+void moveRev(){
+  //Driver backwards at a specific set speed
+  LeftMotor.spin(directionType::rev,driveSpeed,velocityUnits::pct);//set motor speed to said variable
+  RightMotor.spin(directionType::rev,driveSpeed,velocityUnits::pct);//set motor speed to said variable
+}//end of moveRev Void
+
+void turnLeft(){
+  //turn motors to the left untilobject is in the center of the robots FOV
+  LeftMotor.spin(directionType::rev,driveSpeed,velocityUnits::pct);//set motor speed to said variable
+  RightMotor.spin(directionType::fwd,driveSpeed,velocityUnits::pct);//set motor speed to said variable
+}//end of turn left function
+
+void turnRight(){
+  //Turn motors to the right until object is in the center of the robots FOV
+  LeftMotor.spin(directionType::fwd,driveSpeed,velocityUnits::pct);//set motor speed to said variable
+  RightMotor.spin(directionType::rev,driveSpeed,velocityUnits::pct);//set motor speed to said variable
+}//end of turn right function
+
+void stopRobot(){
+  //stops all motors and pause
+  LeftMotor.stop(brakeType::coast);//set motor speed to said variable
+  RightMotor.stop(brakeType::coast);//set motor speed to said variable
+}//end of stop void
