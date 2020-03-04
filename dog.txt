@@ -164,3 +164,16 @@ void stopRobot(){
   LeftMotor.stop(brakeType::coast);//set motor speed to said variable
   RightMotor.stop(brakeType::coast);//set motor speed to said variable
 }//end of stop void
+
+/*
+class Movement {
+  public:
+    motor leftMotor;
+    motor rightMotor;
+    motor armMotor;
+    motor clawMotor;
+    Movement(motor left, motor right, motor arm, motor claw) : leftMotor(left), rightMotor(right), armMotor(arm), clawMotor(claw) {
+      // do nothing
+    }
+};
+*/
