@@ -4,7 +4,7 @@
 
 /*    Module:       main.cpp                                                  */
 
-/*    Author:       C:\Users\kennethbarbagallo                                */
+/*    Author:       C:\Users\wyattrose                                        */
 
 /*    Created:      Fri Feb 28 2020                                           */
 
@@ -19,13 +19,13 @@
 // ---- START VEXCODE CONFIGURED DEVICES ----
 // Robot Configuration:
 // [Name]               [Type]        [Port(s)]
-// Vision1              vision        2               
+// Vision1              vision        3               
 // RightMotor           motor         10              
-// LeftMotor            motor         1               
-// ClawMotor            motor         8               
+// LeftMotor            motor         2               
 // ArmMotor             motor         9               
+// ClawMotor            motor         8               
 // ---- END VEXCODE CONFIGURED DEVICES ----
-
+           
 
 
 #include "vex.h"
@@ -52,9 +52,9 @@ void stopRobot();
 
 //Global Variables
 
-int centerFOVX = 168;//try 158
+int centerFOVX = 96;//try 158
 
-int centerFOVY = 195;//try 106
+int centerFOVY = 118;//try 106
 
 int offsetX = 20;
 
@@ -91,7 +91,7 @@ int main() {
     Brain.Screen.drawRectangle(82,30,316,212); //Draw the visionSensor feild of veiw
 
     //Take Snap Shots for ball
-    Vision1.takeSnapshot(SIG_1);
+    Vision1.takeSnapshot(Vision1__GREG);
 
     //draw what the Vision Sensor Sees
     Brain.Screen.drawCircle(Vision1.largestObject.originX+82,Vision1.largestObject.originY+30,Vision1.largestObject.width, color::red);
@@ -101,8 +101,8 @@ int main() {
       int velX = ((Vision1.largestObject.originX - 158)*0.6);
       int velY = ((Vision1.largestObject.originY - 190)*0.6);
       //Keep robot fixed on Red
-      LeftMotor.spin(directionType::fwd,(velY +velX)/2,velocityUnits::pct);
-      RightMotor.spin(directionType::fwd,(velY - velX)/2,velocityUnits::pct);
+      LeftMotor.spin(directionType::fwd,(velY -velX)/2,velocityUnits::pct);
+      RightMotor.spin(directionType::fwd,(velY + velX)/2,velocityUnits::pct);
       task::sleep(100);
     }//End of First IF Statement
 
@@ -118,11 +118,11 @@ int main() {
       }//end of if
       
       else if(Vision1.largestObject.centerY > centerFOVY + offsetY){
-        moveRev();//function
+        moveFwd();//function
       }//end of esle if
 
       else if(Vision1.largestObject.centerY < centerFOVY - offsetY){
-        moveFwd();//function
+        moveRev();//function
       }//end of else if
       
       else{
@@ -164,16 +164,3 @@ void stopRobot(){
   LeftMotor.stop(brakeType::coast);//set motor speed to said variable
   RightMotor.stop(brakeType::coast);//set motor speed to said variable
 }//end of stop void
-
-/*
-class Movement {
-  public:
-    motor leftMotor;
-    motor rightMotor;
-    motor armMotor;
-    motor clawMotor;
-    Movement(motor left, motor right, motor arm, motor claw) : leftMotor(left), rightMotor(right), armMotor(arm), clawMotor(claw) {
-      // do nothing
-    }
-};
-*/
