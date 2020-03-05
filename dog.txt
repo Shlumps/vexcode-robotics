@@ -19,11 +19,11 @@
 // ---- START VEXCODE CONFIGURED DEVICES ----
 // Robot Configuration:
 // [Name]               [Type]        [Port(s)]
-// Vision1              vision        3               
-// RightMotor           motor         10              
 // LeftMotor            motor         2               
-// ArmMotor             motor         9               
+// RightMotor           motor         10              
 // ClawMotor            motor         8               
+// ArmMotor             motor         9               
+// Vision1              vision        3               
 // ---- END VEXCODE CONFIGURED DEVICES ----
            
 
@@ -52,9 +52,9 @@ void stopRobot();
 
 //Global Variables
 
-int centerFOVX = 96;//try 158
+int centerFOVX = 102;//try 158
 
-int centerFOVY = 118;//try 106
+int centerFOVY = 172;//try 106
 
 int offsetX = 20;
 
@@ -81,7 +81,13 @@ int main() {
   // Initializing Robot Configuration. DO NOT REMOVE!
 
   vexcodeInit();
+
+  ClawMotor.spin(directionType::rev);
+  task::sleep(2000);
+  ClawMotor.stop(brakeType::coast);
+
   while(true){//alwaysrun
+
     Brain.Screen.clearScreen();
 
     Brain.Screen.setOrigin(1,1);
@@ -91,7 +97,7 @@ int main() {
     Brain.Screen.drawRectangle(82,30,316,212); //Draw the visionSensor feild of veiw
 
     //Take Snap Shots for ball
-    Vision1.takeSnapshot(Vision1__GREG);
+    Vision1.takeSnapshot(Vision1__SIG_1);
 
     //draw what the Vision Sensor Sees
     Brain.Screen.drawCircle(Vision1.largestObject.originX+82,Vision1.largestObject.originY+30,Vision1.largestObject.width, color::red);
@@ -127,7 +133,6 @@ int main() {
       
       else{
         stopRobot();//function
-          //INSERT ROBOT PIC UP HERE!!!!!!!!
       }//end of else
       task::sleep(20);//SPD Slow Program Dow
     }//End of second Else
@@ -163,4 +168,8 @@ void stopRobot(){
   //stops all motors and pause
   LeftMotor.stop(brakeType::coast);//set motor speed to said variable
   RightMotor.stop(brakeType::coast);//set motor speed to said variable
+  ClawMotor.spin(directionType::fwd);
+  task::sleep(400);
+  ClawMotor.spin(directionType::rev);
+  task::sleep(400);
 }//end of stop void
