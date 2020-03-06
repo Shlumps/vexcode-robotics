@@ -173,3 +173,82 @@ void stopRobot(){
   ClawMotor.spin(directionType::rev);
   task::sleep(400);
 }//end of stop void
+
+
+/*
+/*----------------------------------------------------------------------------*/
+/*                                                                            */
+/*    Module:       main.cpp                                                  */
+/*    Author:       C:\Users\wyattrose                                        */
+/*    Created:      Fri Mar 06 2020                                           */
+/*    Description:  V5 project                                                */
+/*                                                                            */
+/*----------------------------------------------------------------------------*/
+
+// ---- START VEXCODE CONFIGURED DEVICES ----
+// Robot Configuration:
+// [Name]               [Type]        [Port(s)]
+// LeftMotor            motor         2               
+// RightMotor           motor         10              
+// ArmMotor             motor         9               
+// ClawMotor            motor         8               
+// ---- END VEXCODE CONFIGURED DEVICES ----
+
+#include "vex.h"
+
+using namespace vex;
+
+class Movement {
+  private:
+    motor leftM;
+    motor rightM;
+    motor armM;
+    motor clawM;
+  public:
+    Movement(motor leftMotor, motor rightMotor, motor armMotor, motor clawMotor) :  leftM(leftMotor), rightM(rightMotor), armM(armMotor), clawM(clawMotor) {
+      Brain.Screen.print("Movement instance initialized\n");
+    }
+
+    void fwd(int speed) { // spins the left and right motors fwd untill interrupted
+      LeftMotor.spin(directionType::fwd, speed, velocityUnits::pct);
+      RightMotor.spin(directionType::fwd, speed, velocityUnits::pct);
+    }
+
+    void rev(int speed) { // spins the left and right motors rev untill interrupted
+      LeftMotor.spin(directionType::rev, speed, velocityUnits::pct);
+      RightMotor.spin(directionType::rev, speed, velocityUnits::pct);
+    }
+
+    void left(int speed) { // turns the robot left, rotates in place
+      LeftMotor.spin(directionType::rev, speed, velocityUnits::pct);
+      RightMotor.spin(directionType::fwd, speed, velocityUnits::pct);
+    }
+    
+    void right(int speed) { // turns the robot right, rotates in place
+      
+    }
+
+    void lift() { // lifts the robot's arm
+
+    }
+
+    void lower() { // lowers the robot's arm
+
+    }
+
+    void close() { // closes the robot's claw
+
+    }
+
+    void open() { // open's the robot's claw
+
+    }
+};    
+
+int main() {
+  // Initializing Robot Configuration. DO NOT REMOVE!
+  vexcodeInit();
+  Movement mov(LeftMotor, RightMotor, ArmMotor, ClawMotor);
+}
+
+*/
