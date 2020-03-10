@@ -1,0 +1,35 @@
+/*----------------------------------------------------------------------------*/
+/*                                                                            */
+/*    Module:       main.cpp                                                  */
+/*    Author:       C:\Users\kennethbarbagallo                                */
+/*    Created:      Tue Mar 10 2020                                           */
+/*    Description:  V5 project                                                */
+/*                                                                            */
+/*----------------------------------------------------------------------------*/
+
+// ---- START VEXCODE CONFIGURED DEVICES ----
+// Robot Configuration:
+// [Name]               [Type]        [Port(s)]
+// LineTrackerLeft      line          A               
+// LineTrackerCenter    line          B               
+// LineTrackerRight     line          C               
+// ---- END VEXCODE CONFIGURED DEVICES ----
+
+#include "vex.h"
+
+using namespace vex;
+
+int main() {
+  // Initializing Robot Configuration. DO NOT REMOVE!
+  vexcodeInit();
+  while(true){
+      Brain.Screen.clearScreen();
+      Brain.Screen.printAt(1,20, "Percent: %f%%",LineTrackerLeft.value(percentUnits::pct));
+      Brain.Screen.printAt(1,40, "Analog: %f mV",LineTrackerLeft.value(analogUnits::pct));
+      Brain.Screen.printAt(1,60, "Percent: %f%%",LineTrackerCenter.value(percentUnits::pct));
+      Brain.Screen.printAt(1,80, "Analog: %f mV",LineTrackerCenter.value(analogUnits::pct));
+      Brain.Screen.printAt(1,100, "Percent: %f%%",LineTrackerRight.value(percentUnits::pct));
+      Brain.Screen.printAt(1,120, "Analog: %f mV",LineTrackerRight.value(analogUnits::pct));
+      task::sleep(500);
+  }
+}
