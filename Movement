@@ -1,0 +1,74 @@
+class Movement { // default speed for all movement is 50%
+  private:
+    motor left;
+    motor right;
+    motor arm;
+    motor claw;
+  public:
+    Movement(motor leftm, motor rightm, motor armm, motor clawm) : left(leftm), right(rightm), arm(armm), claw(clawm) {/* do nothing */}
+
+    void forward() {
+      left.spin(directionType::fwd,50,velocityUnits::pct);
+      right.spin(directionType::fwd,50,velocityUnits::pct);
+    }
+
+    void forward(int speed) {
+      left.spin(directionType::fwd,speed,velocityUnits::pct);
+      right.spin(directionType::fwd,speed,velocityUnits::pct);
+    }
+
+    void backward() {
+      left.spin(directionType::rev,50,velocityUnits::pct);
+      right.spin(directionType::rev,50,velocityUnits::pct);
+    }
+
+    void backward(int speed) {
+      left.spin(directionType::rev,speed,velocityUnits::pct);
+      right.spin(directionType::rev,speed,velocityUnits::pct);
+    }
+
+    void turnLeft() {
+      left.spin(directionType::rev,50,velocityUnits::pct);
+      right.spin(directionType::fwd,50,velocityUnits::pct);
+    }
+
+    void turnLeft(int speed) {
+      left.spin(directionType::rev,speed,velocityUnits::pct);
+      right.spin(directionType::fwd,speed,velocityUnits::pct);
+    }
+
+    void turnRight() {
+      left.spin(directionType::fwd,50,velocityUnits::pct);
+      right.spin(directionType::rev,50,velocityUnits::pct);
+    }
+
+    void turnRight(int speed) {
+      left.spin(directionType::fwd,speed,velocityUnits::pct);
+      right.spin(directionType::rev,speed,velocityUnits::pct);
+    }
+
+    void raise() {
+      arm.spin(directionType::fwd,50,velocityUnits::pct);
+    }
+
+    void raise(int speed) {
+      arm.spin(directionType::fwd,speed,velocityUnits::pct);
+    }
+
+    void lower() {
+      arm.spin(directionType::rev,50,velocityUnits::pct);
+    }
+
+    void lower(int speed) {
+      arm.spin(directionType::rev,speed,velocityUnits::pct);
+    }
+
+    void close() {
+      claw.spin(directionType::fwd,50,velocityUnits::pct);
+    }
+
+    void open() {
+      claw.spin(directionType::rev,50,velocityUnits::pct);
+    }
+    
+};
